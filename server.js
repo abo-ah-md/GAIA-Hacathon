@@ -17,7 +17,9 @@ let GPTassesment= null;
 let GPTresult = null
 let jobtitle = null
 
-
+app.get("/", async (req,res)=>{
+  res.send("hello")
+})
 
 
 app.post('/chat', async (req, res) => {
