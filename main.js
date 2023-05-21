@@ -21,7 +21,11 @@ let sendFormBtn= null;
 
 const handleStartingfn =  async function (e,jobTitle){
     try{
+
         e.preventDefault();
+        startAseesment.disabled = true;
+        
+    
         if (jobTitle==" ") return alert("please enter a jobtitle");
     
         const res = await fetch("http://localhost:3000/chat",{method: "POST",body:jobTitle,});
@@ -32,8 +36,10 @@ const handleStartingfn =  async function (e,jobTitle){
         assesmentDiv.innerHTML='';
         assesmentDiv.innerHTML = 
         `<form>
-        ${questions.map((question,i) =>{return `<h2 data-question="${i}">${question.question}</h2>`}).join(" ")}
-
+        ${questions.map((question,i) =>{return `
+        <div class = "question--box">
+        <h2 data-question="${i}">${question.question}</h2>`}).join(" ")}
+        </div>
         <button class= "submit--btn"type="submit" value="Submit">submit</button
         </form>`
 
@@ -43,10 +49,12 @@ const handleStartingfn =  async function (e,jobTitle){
 
         question.choices
         .map((choice) => {
-        closestElement.insertAdjacentHTML("beforeend", 
-            `<br>
-            <input type="radio" id="${mainIndex}" name="${mainIndex}" value="${choice}">
-            <label for="${mainIndex}">${choice}</label><br> `)      
+        closestElement.insertAdjacentHTML("afterend", 
+            `<div class="choices--box">
+            <input  type="radio" id="${mainIndex}" name="${mainIndex}" value="${choice}">
+            <label for="${mainIndex}">${choice}</label><br>
+            </div>
+            `)      
     
             });
 
@@ -63,6 +71,8 @@ const handleStartingfn =  async function (e,jobTitle){
 const handleSendingFormInfo =  async function(e){
     try{
         e.preventDefault();
+        sendFormBtn.disabled = true;
+
         const answers = Array.from(document.querySelectorAll('input[type="radio"]:checked')).map(radio => radio.value).join(', ');
     
         const fdata = {
@@ -83,20 +93,23 @@ const handleSendingFormInfo =  async function(e){
 
 
 
-
+        assesmentDiv.classList.add("main--cources--container")
+        assesmentDiv.classList.toggle("assesment");
         assesmentDiv.innerHTML='';
 
         assesmentDiv.innerHTML = 
         `
         ${courses.map((course,i) =>{
-            return `<h2 data-question="${i}">${course.recommendedCourse}</h2>
+            return `
+            
+                <div class="cources--box">
+            <h2 data-question="${i}">${course.recommendedCourse}</h2>
                     <a href =${course.CourseURL}> ${course.recommendedCourse}</a>
                     <p>${course.ex}</p>
-        
-        
+                </div>
+            
         `}).join(" ")}
         `
-
 
     }catch(e){
         console.log(e)
@@ -125,17 +138,21 @@ const handleSendingFormInfo =  async function(e){
 
 
 
-
+        assesmentDiv.classList.add("main--cources--container")
+        assesmentDiv.classList.toggle("assesment");
         assesmentDiv.innerHTML='';
 
         assesmentDiv.innerHTML = 
         `
         ${courses.map((course,i) =>{
-            return `<h2 data-question="${i}">${course.recommendedCourse}</h2>
-            <a href =${course.CourseURL}> ${course.recommendedCourse}</a>
-            <p>${course.ex}</p>
-        
-        
+            return `
+            
+                <div class="cources--box">
+            <h2 data-question="${i}">${course.recommendedCourse}</h2>
+                    <a href =${course.CourseURL}> ${course.recommendedCourse}</a>
+                    <p>${course.ex}</p>
+                </div>
+            
         `}).join(" ")}
         `
 
