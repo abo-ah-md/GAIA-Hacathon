@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 
-const configuration = new Configuration({organization: "org-WzvEuZ1SLy4VY0l0Esorwpli",apiKey: "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",});
+const configuration = new Configuration({organization: "org-WzvEuZ1SLy4VY0l0Esorwpli",apiKey: "",});
 const openai = new OpenAIApi(configuration);
 
 let GPTassesment= null;
