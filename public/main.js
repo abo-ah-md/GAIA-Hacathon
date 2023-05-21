@@ -27,8 +27,21 @@ const handleStartingfn =  async function (e,jobTitle){
         
     
         if (jobTitle==" ") return alert("please enter a jobtitle");
+
+
+
+
+        const fdata = {
+            jobTitle: jobTitle,
+          };
+        const res = await fetch("https://entirenimbleshell--onlytest1.repl.co/chat",
+        {method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+          },
+        body:JSON.stringify(fdata),});
     
-        const res = await fetch("http://localhost:3000/chat",{method: "POST",body:jobTitle,});
+       
         const data = await res.json();
         const questions = data.questions
          console.log( await questions);
@@ -78,7 +91,7 @@ const handleSendingFormInfo =  async function(e){
         const fdata = {
             answers: answers,
           };
-        const res = await fetch("http://localhost:3000/answers",
+        const res = await fetch("https://entirenimbleshell--onlytest1.repl.co/answers",
         {method: "POST",
         headers: {
             "Content-Type": "application/json",

@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 
-const configuration = new Configuration({organization: "org-WzvEuZ1SLy4VY0l0Esorwpli",apiKey: process.env.OPENAI_API_KEY,});
+const configuration = new Configuration({organization: "org-WzvEuZ1SLy4VY0l0Esorwpli",apiKey: "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",});
 const openai = new OpenAIApi(configuration);
 
 let GPTassesment= null;
@@ -54,7 +54,7 @@ app.post('/chat', async (req, res) => {
     
     res.send(completion.data.choices[0].message.content);
 } catch (error) {
-    console.error('Error:', error.message);
+    console.error('Error:', error);
     res.status(500).json({ error: 'An error occurred' });
   }
 
