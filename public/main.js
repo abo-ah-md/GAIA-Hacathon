@@ -10,7 +10,24 @@ let sendFormBtn= null;
 
 
 
+const  fetchingData =async function (URL,fdata)
+{
 
+ const dataObj = {
+   fdata: fdata,
+   };
+
+ const res = await fetch(`${URL}`,
+ {method: "POST",
+ headers: {
+     "Content-Type": "application/json",
+   },
+ body:JSON.stringify(dataObj),});
+
+ const data = await res.json();
+
+ return data
+}
 
 
 
@@ -126,35 +143,16 @@ const handleSendingFormInfo =  async function(e){
 
     }catch(e){
         console.log(e)
-        
-        const answers = Array.from(document.querySelectorAll('input[type="radio"]:checked')).map(radio => radio.value).join(', ');
-    
-        const fdata = {
-            answers: answers,
-          };
+          const answers = Array.from(document.querySelectorAll('input[type="radio"]:checked')).map(radio => radio.value).join(', ');
+          const URL ='http://localhost:3000/answers';
+          const data = await fetchingData(URL,answers);
+          const courses = data.courses;
 
-
-
-       
-        const res = await fetch("http://localhost:3000/answers",
-        {method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-          },
-        body:JSON.stringify(fdata),});
-
-        const data = await res.json();
-    
-        console.log(await data);
-
-        const courses = data.courses;
-
-
-
+          
+      const renderCourcesData = function(){
+        assesmentDiv.innerHTML='';
         assesmentDiv.classList.add("main--cources--container")
         assesmentDiv.classList.toggle("assesment");
-        assesmentDiv.innerHTML='';
-
         assesmentDiv.innerHTML = 
         `
         ${courses.map((course,i) =>{
@@ -170,17 +168,18 @@ const handleSendingFormInfo =  async function(e){
         `
 
 
+      }
 
-
-
-
-
+       
+       
         
-        ;}
+        }
   
 }
 /*///////////////////////////////////////////////////////////*/
 
+
+
+
+
 startAseesment.addEventListener("click",handleStartingfn);
-
-
