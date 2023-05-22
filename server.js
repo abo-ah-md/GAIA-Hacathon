@@ -18,6 +18,15 @@ let GPTresult = null
 let jobtitle = null
 
 
+app.use(express.static('public'));
+
+
+
+app.get('/', async (req, res) =>{
+  res.sendFile(__dirname + '/public/index.html');
+});
+
+
 
 app.post('/chat', async (req, res) => {
   try {
