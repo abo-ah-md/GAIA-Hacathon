@@ -34,7 +34,7 @@ const handleStartingfn =  async function (e,jobTitle){
         const fdata = {
             jobTitle: jobTitle,
           };
-        const res = await fetch("https://entirenimbleshell--onlytest1.repl.co/chat",
+        const res = await fetch("http://localhost:3000/chat",
         {method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -91,7 +91,7 @@ const handleSendingFormInfo =  async function(e){
         const fdata = {
             answers: answers,
           };
-        const res = await fetch("https://entirenimbleshell--onlytest1.repl.co/answers",
+        const res = await fetch("http://localhost:3000/answers",
         {method: "POST",
         headers: {
             "Content-Type": "application/json",
