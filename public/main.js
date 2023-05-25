@@ -3,7 +3,14 @@
        
 const startAseesment = document.querySelector("#Send-jobtitle-btn");
 const assesmentDiv = document.querySelector(".assesment");
+const spinner = document.querySelector(".spinner")
 let sendFormBtn= null;
+
+document.querySelector(".blur--screen").classList.toggle("unblur")
+document.querySelector(".blur--screen").classList.toggle("blur")
+
+spinner.style.display="none";
+
 
 
 class Main {
@@ -12,25 +19,38 @@ class Main {
 
 //using post data function that return the fetched data
 async fetchingData (URL,fdata) {
+try{
 
-    const dataObj = {fdata: fdata,};
-   
-    const res = await fetch(`${URL}`,{
+ 
+  const dataObj = {fdata: fdata,};  
+
+  const timeout = (s)=> {
+    return new Promise((_,reject)=>{
+      setTimeout(reject(  new Error(`Request took too long! Timeout after ${s} second`)),s*1000)
+    })
+  }
+
+  const fetchConfig = await fetch(`${URL}`,{
     method: "POST",
     headers: {"Content-Type": "application/json",},
     body:JSON.stringify(dataObj),});
-   
+
+    const res = await Promise.race([fetchConfig,timeout(60)]);
     const data = await res.json();
-   
+    if (!res.ok)console.log("not good");
     return data
+}catch(e){
+  location.href ="/error404.html"
+  console.log(e);}
    };
+
+
 
 
 clearHtmlBody (){assesmentDiv.innerHTML=''};
 
-disableBtn(btn){
-  btn.disabled =true
-}
+
+disableBtn(btn){btn.disabled =true}
 
 /////////////////render functions/////////////////////////
 
@@ -100,6 +120,12 @@ const Main1 = new Main;
 const handleStartingfn =  async function (e){
     try{
       document.querySelector(".blur--screen").classList.toggle("blur")
+      document.querySelector(".blur--screen").classList.toggle("unblur")
+
+      spinner.style.display="flex";
+      spinner.classList.toggle("unblur")
+
+
       e.preventDefault();
       const jobTitle = document.querySelector("#jobtitle-input").value;
 
@@ -119,7 +145,9 @@ const handleStartingfn =  async function (e){
 
     sendFormBtn = document.querySelector(".submit--btn");
     sendFormBtn.addEventListener("click",handleSendingFormInfo)
-    document.querySelector(".blur--screen").classList.toggle("blur")
+    spinner.style.display="none";
+
+    document.querySelector(".blur--screen").classList.toggle("unblur")
 
     }catch(e){console.log(e)};
    
@@ -156,7 +184,7 @@ if (numberOfanswers<expectedAnswers) return alert("please complete all the answe
         Main1.renderCourcesData(courses);
     
 
-        document.querySelector(".blur--screen").classList.toggle("blur")
+        document.querySelector(".blur--screen").classList.toggle("unblur")
 
     }catch(e){
       console.log(e); 
